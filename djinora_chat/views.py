@@ -7,3 +7,7 @@ def index(request):
 
 def slack_chat(request):
     return render(request, 'djinora_chat/slack.html')
+
+
+def register_chat(request):
+    return render(request, 'djinora_chat/username_entry.html')
