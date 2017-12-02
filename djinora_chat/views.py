@@ -1,3 +1,5 @@
 from django.shortcuts import render
 
-# Create your views here.
+
+def index(request):
+    return render(request, 'djinora_chat/chat.html')
