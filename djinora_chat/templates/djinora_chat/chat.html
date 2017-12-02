@@ -22,12 +22,12 @@
 
 <script>
     document.getElementById("message_input").style.display = 'none';
-    var socket;
     document.getElementById('username_input').onsubmit = function (event) {
         event.preventDefault();
         var username = document.getElementById("username").value;
         if (username === "") alert("Please enter the username");
         else {
+            var socket;
             socket = new WebSocket("ws://localhost:8000/chat/?username=" + username);
             document.getElementById("message_input").style.display = 'inline';
 
@@ -40,14 +40,12 @@
             };
 
             document.getElementById("message_input").onsubmit = function (event) {
-                console.log("entered message_input_onsubmit");
                 event.preventDefault();
                 var message = document.getElementById("message").value;
-                console.log("message is: " + message);
                 if (message !== "") {
                     if (socket.readyState === WebSocket.OPEN) {
-                        console.log("socket.readystate === WebSocket.OPEN");
                         socket.send(message)
+                        document.getElementById('message').value = "";
                     }
                 }
             };
