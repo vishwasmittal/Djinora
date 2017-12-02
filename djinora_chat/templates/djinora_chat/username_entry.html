@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Public</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/username_entry.css' %}">
+</head>
+<body>
+<div class='icon'>
+    <div class='box-wrapper js-box-wrapper'>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+        <div class='box'></div>
+    </div>
+    <div class='title-wrapper js-title-wrapper'>
+        <h2 class='letter'>S</h2>
+    </div>
+</div>
+<div class='status js-response'>Experience what it's like to work for Slack.</div>
+<div class='dialog'>
+    <div class='row'>
+        <form>
+            <input class='primary js-input' placeholder='Your name' type='text'>
+            <button class='primary js-button' type='submit'>Get inside Slack</button>
+        </form>
+    </div>
+    <div class='row note'>Be less busy. Submit your name and get inside of Slack.</div>
+</div>
+<script src="{% static 'js/username_entry.js' %}"></script>
+</body>
+</html>
