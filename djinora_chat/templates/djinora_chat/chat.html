@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Djinora</title>
+</head>
+
+<!--
+<body style="height: 100vh">
+
+<div id="chat_area"></div>
+
+<!--
+<form id="username_input">
+    <input name="username" type="text">
+    <input name="submit_username" value="Send">
+</form>
+--
+
+<form id="user_input" style="margin-bottom: 0; width: 100%">
+    <input name="message" type="text">
+    <input type="submit" name="submit" value="Send">
+</form>
+
+
+
+
+
+<script>
+
+
+
+    document.getElementById('user_input').onsubmit = function () {
+
+
+    }
+
+
+
+
+</script>
+
+
+
+
+</body>
+-->
+
+<body style="height: 100vh">
+
+<form id="username_input">
+    <input id="username" name="username" type="text" autocomplete="off">
+    <input type="submit" name="submit_username" value="Send">
+</form>
+
+<div id="chat_area"></div>
+
+<form id="message_input" style="margin-bottom: 5vh;width: 100%;position: fixed;bottom: 0;">
+    <input id="message" name="message" type="text" style="height: 5vh;" autocomplete="off">
+    <input type="submit" name="submit" value="Send" style="height: 5vh;">
+</form>
+
+
+<script>
+    document.getElementById("message_input").style.display = 'none';
+    var socket;
+    document.getElementById('username_input').onsubmit = function (event) {
+        event.preventDefault();
+        var username = document.getElementById("username").value;
+        if (username === "") alert("Please enter the username");
+        else {
+            socket = new WebSocket("ws://localhost:8000/chat/?username=" + username);
+            document.getElementById("message_input").style.display = 'inline';
+
+            socket.onmessage = function (e) {
+                var payload = JSON.parse(e.data);
+                var username = payload.username;
+                var text = payload.text;
+                var bot = payload.bot;
+                console.log('username: ' + username + '\ntext: ' + text + '\nbot: ' + bot);
+            };
+
+            document.getElementById("message_input").onsubmit = function (event) {
+                console.log("entered message_input_onsubmit");
+                event.preventDefault();
+                var message = document.getElementById("message").value;
+                console.log("message is: " + message);
+                if (message !== "") {
+                    if (socket.readyState === WebSocket.OPEN) {
+                        console.log("socket.readystate === WebSocket.OPEN");
+                        socket.send(message)
+                    }
+                }
+            };
+        }
+    };
+
+
+</script>
+</body>
+</html>
