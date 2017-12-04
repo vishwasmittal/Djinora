@@ -255,7 +255,6 @@ ul {
 #slack-container #chat #chatbox .messages .message .body {
     display: inline-block;
     width: 90%;
-
 }
 
 #slack-container #chat #chatbox .messages .message .body .username {
