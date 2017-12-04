@@ -15,3 +15,8 @@ Following are some works are needed to be done
  * Enable the command system, like clear, ban etc
  * Enable tagging feature using '@' symbol
  * Complete Readme
+
+
+### Glimpses
+<img src = "https://github.com/vishwas78/Djinora/blob/master/images/djinora_login.png" width = "500">
+<img src = "https://github.com/vishwas78/Djinora/blob/master/images/djinora_chat.png" width = "500">
