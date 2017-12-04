@@ -6,7 +6,7 @@ var elements = {
     button: document.getElementsByClassName("js-button")[0],
     input: document.getElementsByClassName("js-input")[0],
     status: document.getElementsByClassName("js-response")[0],
-    titleWrapper: document.getElementsByClassName("js-title-wrapper")[0]
+    titleWrapper: document.getElementsByClassName("js-title-wrapper")[0],
 };
 
 /**
@@ -242,6 +242,7 @@ function getRandomHex(index) {
     return colour;
 }
 
+
 /**
  * The main animation.
  */
@@ -260,10 +261,16 @@ function getUserInsideSlack(event) {
     // Store the input value.
     glob.inputValue = elements.input.value.trim();
 
-    // Do not animate if the name value is equal to the last value.
+    // Do not animate if the name value is equal to the default name.
+    if (!error && glob.inputValue === getDefaultName()) {
+        error =
+            "<span>You are already inside of Slack, <b>" + getDefaultName() + "</b>!</span>";
+    }
+
+    // Do not animate if the name value is equal to the previous value, which was rejected by server
     if (!error && glob.inputValue === glob.name) {
         error =
-            "<span>You are already inside of Slack, <b>" + glob.name + "</b>!</span>";
+            "<span>Entering same name again will do no good, <b>" + glob.name + "</b>! -_-</span>";
     }
 
     // Do not animate if the input is empty and we have already reset
@@ -288,7 +295,7 @@ function getUserInsideSlack(event) {
 
     // Display the feedback message.
     message = glob.inputValue
-        ? "<span><b>" + glob.inputValue + "</b> got inside of Slack!</span>"
+        ? "Requesting server to take you inside!"
         : getDefaultStatus();
 
     glob.status = error || message;
@@ -298,19 +305,16 @@ function getUserInsideSlack(event) {
         animatingIconFlag = false;
     });
 
-    if (error) {
-        shakeInputAnimation();
-        return;
-    }
-
     // Update the name.
     glob.name = glob.inputValue || getDefaultName();
 
-    animateIconBackground();
-    animateIconLetter(glob.name[0]).then(function () {
-        // Release the flag.
-        animatingIconFlag = false;
-    });
+    if (error) {
+        shakeInputAnimation();
+    }
+    else {
+        var socket = new WebSocket("ws://" + window.location.host + window.location.pathname + "?username=" + glob.name);
+        socket.onmessage = handleServerMessage;
+    }
 }
 
 /**
@@ -347,3 +351,41 @@ function shakeInputAnimation() {
 }
 
 elements.button.addEventListener("click", getUserInsideSlack);
+
+function handleServerMessage(e) {
+    // function will all the messages sent by server
+
+    var payload = JSON.parse(e.data);
+    var server_status = payload.status;
+    var state = payload.state; // can have 2 values: connect, receive. Shows what state does the message represents.
+
+    // if error received
+    if (state === 'connect' && server_status >= 400 && server_status < 500) {
+        var error = payload.error;
+        // deal with the error message
+        animatingIconFlag = true;
+        shakeInputAnimation();
+        displayMessage(error).then(function () {
+            // Release the flag
+            animatingIconFlag = false;
+        });
+    }
+    // server has accepted the user
+    if (state === 'connect' && server_status == 200) {
+        // animate the background and display the welcome message
+        // and fade out.
+        animatingIconFlag = true;
+        animateIconBackground();
+        animateIconLetter(glob.name[0]);
+        displayMessage(payload.message).then(function () {
+            // Release the flag
+            animatingIconFlag = false;
+            //TODO: add a function to fade the login and display chat
+            document.getElementsByClassName("username_entry")[0].addStyle({
+                opacity: 0,
+                transition: "opacity " + getAnimationValues().duration + "ms " + getAnimationValues().easing
+            });
+        });
+    }
+    // TODO: include the function calls for chat UI and also the handlers for payload.state === 'receive', i.e. it should add the message to chat interface
+}

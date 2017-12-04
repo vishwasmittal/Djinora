@@ -44,7 +44,7 @@
                 var message = document.getElementById("message").value;
                 if (message !== "") {
                     if (socket.readyState === WebSocket.OPEN) {
-                        socket.send(message)
+                        socket.send(message);
                         document.getElementById('message').value = "";
                     }
                 }
