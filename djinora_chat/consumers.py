@@ -110,6 +110,6 @@ def ws_disconnect(message):
                 "text": "Has left the chat",
                 "username": username,
                 "bot": True,
-                'state': 'disconnect',
+                'state': 'receive',
             }),
         })
