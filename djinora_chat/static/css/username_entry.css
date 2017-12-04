@@ -8,6 +8,21 @@
     box-sizing: border-box;
 }
 
+body, html {
+    padding: 0;
+    margin: 0;
+    background: -webkit-linear-gradient(225deg, #efefef, #ccc);
+    background: linear-gradient(-135deg, #efefef, #ccc);
+    background-size: cover;
+    color: #222;
+    height: 100%;
+}
+
+body:before {
+    background: -webkit-linear-gradient(top, #f5f3f1 10%, transparent);
+    background: linear-gradient(to bottom, #f5f3f1 10%, transparent);
+}
+
 .username_entry {
     -webkit-box-align: center;
     -ms-flex-align: center;
