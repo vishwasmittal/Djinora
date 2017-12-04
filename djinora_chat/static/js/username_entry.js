@@ -6,7 +6,7 @@ var elements = {
     button: document.getElementsByClassName("js-button")[0],
     input: document.getElementsByClassName("js-input")[0],
     status: document.getElementsByClassName("js-response")[0],
-    titleWrapper: document.getElementsByClassName("js-title-wrapper")[0],
+    titleWrapper: document.getElementsByClassName("js-title-wrapper")[0]
 };
 
 /**
@@ -364,7 +364,6 @@ function handleServerMessage(e) {
     var server_status = payload.status;
     var state = payload.state; // can have 2 values: connect, receive. Shows what state does the message represents.
 
-    console.log(payload);
     // if error received
     if (state === 'connect' && server_status >= 400 && server_status < 500) {
         var error = payload.error;
@@ -386,35 +385,28 @@ function handleServerMessage(e) {
         displayMessage(payload.message).then(function () {
             // Release the flag
             animatingIconFlag = false;
-            //TODO: add a function to fade the login and display chat
             document.getElementsByClassName("username_entry")[0].addStyle({
                 display: "none",
                 opacity: 0,
                 // color: 'black'
                 transition: "opacity " + getAnimationValues().duration + "ms " + getAnimationValues().easing
             });
-            // $("#slack-container").fadeIn("slow", function () {
-            //     var slack = document.getElementById("slack-container");
-            // slack.style.position = "absolute";
-            // slack.style.top = 0;
-            // });
             fadeIn(document.getElementById("slack-container"));
         });
     }
 
-    // TODO: include the function calls for chat UI and also the handlers for payload.state === 'receive', i.e. it should add the message to chat interface
-
     else if (state === 'receive') {
-        console.log("message is received");
-        // <li class="message">
-        //             <div class="user-icon"><img
-        //                     src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
-        //             </div>
-        //             <div class="body">
-        //                 <div class="username">navin</div>
-        //                 <div class="text">@kimberlygo: okay, i'll do it!</div>
-        //             </div>
-        //         </li>
+        /** Sample html for chat message
+         <li class="message">
+         <div class="user-icon"><img
+         src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+         </div>
+         <div class="body">
+         <div class="username">navin</div>
+         <div class="text">@kimberlygo: okay, i'll do it!</div>
+         </div>
+         </li>
+         */
         var li = document.createElement('LI');
         li.className = 'message';
         var div_user_icon = document.createElement('DIV');
@@ -444,8 +436,9 @@ document.getElementById('send-message').onsubmit = function (event) {
     if (socket.readyState === WebSocket.OPEN) {
         socket.send(message);
         document.getElementById('input-message').value = "";
+    } else {
+        console.error("Connection cannot be established")
     }
-
 };
 
 function fadeIn(el) {
