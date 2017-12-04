@@ -1,26 +1,87 @@
 from channels import Channel, Group
 from channels.sessions import channel_session
 
+from djinora_chat.models import *
+
 from urllib.parse import parse_qs
 import json
 
 
 @channel_session
 def ws_connect(message):
+    # accepting the connection
     message.reply_channel.send({'accept': True})
+
+    # parsing the query string
     params = parse_qs(message.content['query_string'].decode())
+
+    # checking for username in query string
     if 'username' in params:
         username = params['username'][0]
         message.channel_session['username'] = username
-        Group('public').add(message.reply_channel)
-        Group('public').send({
-            "text": json.dumps({
-                "text": "has joined the channel",
-                "username": username,
-                "bot": True,
+        message.channel_session['joined'] = False
+
+        # validating the username length
+        if len(username) > 36:
+            message.reply_channel.send({
+                'text': json.dumps({
+                    "status": "404",
+                    "error": "Name too long",
+                    'state': 'connect',
+                }),
+            })
+            message.reply_channel.send({'close': True})
+            return
+        # checking if same username exists
+        elif TempPublicUser.objects.filter(username=username).count() > 0:
+            message.reply_channel.send({
+                'text': json.dumps({
+                    "status": "409",
+                    "error": "Username already taken! :(",
+                    'state': 'connect',
+                }),
+            })
+            message.reply_channel.send({'close': True})
+            return
+        elif username == "Slack":
+            message.reply_channel.send({
+                'text': json.dumps({
+                    "status": "403",
+                    "error": "You are already inside of Slack, <b>Slack</b>!",
+                    'state': 'connect',
+                }),
+            })
+            message.reply_channel.send({'close': True})
+            return
+        # adding username to chat
+        else:
+            message.channel_session['joined'] = True
+            TempPublicUser.objects.create(username=username)
+            message.reply_channel.send({
+                'text': json.dumps({
+                    "status": "200",
+                    "message": "Welcome to Slack, <b>" + username + "</b>",
+                    'state': 'connect',
+                }),
+            })
+            Group('public').add(message.reply_channel)
+            Group('public').send({
+                "text": json.dumps({
+                    "text": "Has joined the channel",
+                    "username": username,
+                    "bot": True,
+                    'state': 'receive',
+                }),
+            })
+    # closing connection if username not present in request
+    else:
+        message.reply_channel.send({
+            'text': json.dumps({
+                "status": "400",
+                "text": "Username is required",
+                'state': 'connect',
             }),
         })
-    else:
         message.reply_channel.send({'close': True})
 
 
@@ -34,6 +95,7 @@ def ws_receive(message):
             "username": sender,
             "text": message.content['text'],
             "bot": False,
+            'state': 'receive',
         }),
     })
 
@@ -42,10 +104,12 @@ def ws_receive(message):
 def ws_disconnect(message):
     username = message.channel_session['username']
     Group('public').discard(message.reply_channel)
-    Group('public').send({
-        "text": json.dumps({
-            "text": "has left the chat",
-            "username": username,
-            "bot": True,
-        }),
-    })
+    if message.channel_session['joined'] == True:
+        Group('public').send({
+            "text": json.dumps({
+                "text": "Has left the chat",
+                "username": username,
+                "bot": True,
+                'state': 'disconnect',
+            }),
+        })
