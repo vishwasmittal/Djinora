@@ -382,10 +382,31 @@ function handleServerMessage(e) {
             animatingIconFlag = false;
             //TODO: add a function to fade the login and display chat
             document.getElementsByClassName("username_entry")[0].addStyle({
+                display: "none",
                 opacity: 0,
+                // color: 'black'
                 transition: "opacity " + getAnimationValues().duration + "ms " + getAnimationValues().easing
             });
+            // $("#slack-container").fadeIn("slow", function () {
+            //     var slack = document.getElementById("slack-container");
+            // slack.style.position = "absolute";
+            // slack.style.top = 0;
+            // });
+            fadeIn(document.getElementById("slack-container"));
         });
     }
+
     // TODO: include the function calls for chat UI and also the handlers for payload.state === 'receive', i.e. it should add the message to chat interface
+}
+
+function fadeIn(el) {
+    el.style.opacity = 0;
+    el.style.display = "block";
+    var tick = function () {
+        el.style.opacity = +el.style.opacity + 0.01;
+        if (+el.style.opacity < 1) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+        }
+    };
+    tick();
 }

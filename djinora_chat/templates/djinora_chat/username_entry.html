@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <title>Public</title>
     <link rel="stylesheet" type="text/css" href="{% static 'css/username_entry.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/slack_css.css' %}">
 </head>
 <body>
 <div class='username_entry'>
@@ -33,6 +34,176 @@
             </form>
         </div>
         <div class='row note'>Be less busy. Submit your name and get inside of Slack.</div>
+    </div>
+</div>
+
+<div id="slack-container" class="chat_screen" style="display: none">
+    <div id="sidebar">
+        <div id="team-picker">
+            <ul class="teams">
+                <li class="team"></li>
+                <!-- <li class="team"></li> -->
+            </ul>
+        </div>
+        <div id="team-name">
+            <h1>Team Awesome</h1>
+        </div>
+        <div id="username">
+            <div class="status_dot"></div>
+            <h2>brandonfujii</h2>
+        </div>
+        <ul id="channels">
+            <h4>channels</h4>
+            <li class="channel selected">
+                <p><i># </i>public</p>
+            </li>
+            <!-- <li class="channel unread">
+                <p><i># </i>marketing</p>
+            </li>
+            <li class="channel">
+                <p><i># </i>tech</p>
+            </li>
+            <li class="channel">
+                <p><i># </i>branding</p>
+            </li>
+            <li class="channel">
+                <p><i># </i>exec</p>
+            </li> -->
+        </ul>
+        <ul id="direct-messages">
+            <h4>Members Online (<span id="members_online">5</span>)</h4>
+            <li class="direct-message">
+                <div class="status_dot"></div>
+                <p>slackbot</p>
+            </li>
+            <li class="direct-message">
+                <div class="status_dot"></div>
+                <p>navin</p>
+            </li>
+            <!-- <li class="direct-message">
+                <div class="status_dot"></div>
+                <p>edys</p>
+            </li>
+            <li class="direct-message">
+                <div class="status_dot"></div>
+                <p>kimberlygo</p>
+            </li>
+            <li class="direct-message">
+                <div class="status_dot inactive"></div>
+                <p>alexandra</p>
+            </li> -->
+        </ul>
+    </div>
+    <div id="chat">
+        <div class="header-bar">
+            <h1>#public</h1>
+            <div class="details">
+                <h3 class="members">5 members</h3>
+                <h3 class="purpose">Lets interact</h3>
+            </div>
+        </div>
+        <div id="chatbox">
+            <ul class="messages">
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">kimberlygo</div>
+                        <div class="text">@channel hey g@kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!
+                            @kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!
+                            @kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!
+                            @kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!uys, update the slides pls</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+                <li class="message">
+                    <div class="user-icon"><img
+                            src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+                    </div>
+                    <div class="body">
+                        <div class="username">navin</div>
+                        <div class="text">@kimberlygo: okay, i'll do it!</div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="input-bar">
+            <form>
+                <input placeholder="" type="text">
+            </form>
+        </div>
     </div>
 </div>
 
