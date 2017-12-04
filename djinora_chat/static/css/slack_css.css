@@ -67,7 +67,7 @@ ul {
     display: block;
 }
 
-#slack-container #sidebar #username .status {
+#slack-container #sidebar #username .status_dot {
     display: inline-block;
     width: 8px;
     height: 8px;
@@ -161,7 +161,7 @@ ul {
     font-weight: 300;
 }
 
-#slack-container #sidebar #direct-messages .direct-message .status {
+#slack-container #sidebar #direct-messages .direct-message .status_dot {
     display: inline-block;
     width: 8px;
     height: 8px;
@@ -169,7 +169,7 @@ ul {
     background-color: #4C9689;
 }
 
-#slack-container #sidebar #direct-messages .direct-message .status.inactive {
+#slack-container #sidebar #direct-messages .direct-message .status_dot.inactive {
     background: transparent;
     width: 6px;
     height: 6px;
@@ -192,6 +192,7 @@ ul {
     height: 100%;
     float: left;
     display: inline-block;
+    background: white;
 }
 
 #slack-container #chat .header-bar {
@@ -242,7 +243,8 @@ ul {
     border-radius: 4px;
     overflow: hidden;
     background: #4E394C;
-    display: inline-block;
+    float: left;
+    /*display: inline-block;*/
 }
 
 #slack-container #chat #chatbox .messages .message .user-icon img {
@@ -252,6 +254,7 @@ ul {
 
 #slack-container #chat #chatbox .messages .message .body {
     display: inline-block;
+    width: 90%;
 }
 
 #slack-container #chat #chatbox .messages .message .body .username {

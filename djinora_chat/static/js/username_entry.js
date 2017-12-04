@@ -6,7 +6,7 @@ var elements = {
     button: document.getElementsByClassName("js-button")[0],
     input: document.getElementsByClassName("js-input")[0],
     status: document.getElementsByClassName("js-response")[0],
-    titleWrapper: document.getElementsByClassName("js-title-wrapper")[0],
+    titleWrapper: document.getElementsByClassName("js-title-wrapper")[0]
 };
 
 /**
@@ -20,8 +20,13 @@ var animatingIconFlag = false;
 var glob = {
     inputValue: "",
     name: getDefaultName(),
-    status: getDefaultStatus()
+    status: getDefaultStatus(),
 };
+
+/**
+ * global variable for socket
+ */
+var socket;
 
 /**
  * Applies the passed style to the parent element.
@@ -312,7 +317,7 @@ function getUserInsideSlack(event) {
         shakeInputAnimation();
     }
     else {
-        var socket = new WebSocket("ws://" + window.location.host + window.location.pathname + "?username=" + glob.name);
+        socket = new WebSocket("ws://" + window.location.host + window.location.pathname + "?username=" + glob.name);
         socket.onmessage = handleServerMessage;
     }
 }
@@ -371,7 +376,7 @@ function handleServerMessage(e) {
         });
     }
     // server has accepted the user
-    if (state === 'connect' && server_status == 200) {
+    else if (state === 'connect' && server_status == 200) {
         // animate the background and display the welcome message
         // and fade out.
         animatingIconFlag = true;
@@ -380,12 +385,70 @@ function handleServerMessage(e) {
         displayMessage(payload.message).then(function () {
             // Release the flag
             animatingIconFlag = false;
-            //TODO: add a function to fade the login and display chat
             document.getElementsByClassName("username_entry")[0].addStyle({
+                display: "none",
                 opacity: 0,
+                // color: 'black'
                 transition: "opacity " + getAnimationValues().duration + "ms " + getAnimationValues().easing
             });
+            fadeIn(document.getElementById("slack-container"));
         });
     }
-    // TODO: include the function calls for chat UI and also the handlers for payload.state === 'receive', i.e. it should add the message to chat interface
+
+    else if (state === 'receive') {
+        /** Sample html for chat message
+         <li class="message">
+         <div class="user-icon"><img
+         src="http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg">
+         </div>
+         <div class="body">
+         <div class="username">navin</div>
+         <div class="text">@kimberlygo: okay, i'll do it!</div>
+         </div>
+         </li>
+         */
+        var li = document.createElement('LI');
+        li.className = 'message';
+        var div_user_icon = document.createElement('DIV');
+        div_user_icon.className = 'user-icon';
+        var img = document.createElement('IMG');
+        img.src = "http://socialmediaweek.org/wp-content/blogs.dir/1/files/slack-pattern-940x492.jpg";
+        var div_body = document.createElement('DIV');
+        div_body.className = 'body';
+        var div_username = document.createElement('DIV');
+        div_username.className = 'username';
+        div_username.appendChild(document.createTextNode(payload.username));
+        var div_text = document.createElement('DIV');
+        div_text.className = 'text';
+        div_text.appendChild(document.createTextNode(payload.text));
+        div_user_icon.appendChild(img);
+        div_body.appendChild(div_username);
+        div_body.appendChild(div_text);
+        li.appendChild(div_user_icon);
+        li.appendChild(div_body);
+        document.getElementsByClassName('messages')[0].appendChild(li);
+    }
+}
+
+document.getElementById('send-message').onsubmit = function (event) {
+    event.preventDefault();
+    var message = document.getElementById('input-message').value;
+    if (socket.readyState === WebSocket.OPEN) {
+        socket.send(message);
+        document.getElementById('input-message').value = "";
+    } else {
+        console.error("Connection cannot be established")
+    }
+};
+
+function fadeIn(el) {
+    el.style.opacity = 0;
+    el.style.display = "block";
+    var tick = function () {
+        el.style.opacity = +el.style.opacity + 0.01;
+        if (+el.style.opacity < 1) {
+            (window.requestAnimationFrame && requestAnimationFrame(tick)) || setTimeout(tick, 16)
+        }
+    };
+    tick();
 }
