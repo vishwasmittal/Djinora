@@ -41,7 +41,9 @@
     <div id="sidebar">
         <div id="team-picker">
             <ul class="teams">
-                <li class="team"></li>
+                <li class="team">
+                    <img src="{{ team_logo }}">
+                </li>
                 <!-- <li class="team"></li> -->
             </ul>
         </div>
@@ -72,10 +74,10 @@
         </ul>
         <ul id="direct-messages">
             <h4>Members Online (<span id="members_online">{{ users_online|length }}</span>)</h4>
-            <li class="direct-message">
+            <!-- <li class="direct-message">
                 <div class="status_dot"></div>
                 <p>slackbot</p>
-            </li>
+            </li>-->
             {% for user in users_online %}
                 <li class="direct-message">
                     <div class="status_dot"></div>
