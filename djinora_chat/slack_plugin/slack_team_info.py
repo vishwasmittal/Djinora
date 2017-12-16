@@ -40,14 +40,14 @@ def raw_channel_info(channel=None):
     return slack_client.api_call('channels.info', channel=channel)
 
 
-def public_channel_info(name='public'):
+def public_channel_info(public_channel_name='public'):
     # return all the info about public channel
     all_channels_list = channels_list()
     if all_channels_list is None:
         return None
     raw_public_channel = None
     for channel in all_channels_list:
-        if channel['name'] == name:
+        if channel['name'] == public_channel_name:
             raw_public_channel = channel
             break
 
