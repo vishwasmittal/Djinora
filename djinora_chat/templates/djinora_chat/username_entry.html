@@ -46,7 +46,7 @@
             </ul>
         </div>
         <div id="team-name">
-            <h1>Team Awesome</h1>
+            <h1>{{ team_name }}</h1>
         </div>
         <div id="username">
             <div class="status_dot"></div>
@@ -55,7 +55,7 @@
         <ul id="channels">
             <h4>channels</h4>
             <li class="channel selected">
-                <p><i># </i>public</p>
+                <p><i># </i>{{ channel_name }}</p>
             </li>
             <!-- <li class="channel unread">
                 <p><i># </i>marketing</p>
@@ -71,15 +71,17 @@
             </li> -->
         </ul>
         <ul id="direct-messages">
-            <h4>Members Online (<span id="members_online">5</span>)</h4>
+            <h4>Members Online (<span id="members_online">{{ users_online|length }}</span>)</h4>
             <li class="direct-message">
                 <div class="status_dot"></div>
                 <p>slackbot</p>
             </li>
-            <li class="direct-message">
-                <div class="status_dot"></div>
-                <p>navin</p>
-            </li>
+            {% for user in users_online %}
+                <li class="direct-message">
+                    <div class="status_dot"></div>
+                    <p>{{ user.real_name }}</p>
+                </li>
+            {% endfor %}
             <!-- <li class="direct-message">
                 <div class="status_dot"></div>
                 <p>edys</p>
@@ -98,7 +100,7 @@
         <div class="header-bar">
             <h1>#public</h1>
             <div class="details">
-                <h3 class="members">5 members</h3>
+                <h3 class="members">{{ channels_num_members }}</h3>
                 <h3 class="purpose">Lets interact</h3>
             </div>
         </div>

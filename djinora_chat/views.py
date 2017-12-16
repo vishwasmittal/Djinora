@@ -14,5 +14,4 @@ def slack_chat(request):
 def register_chat(request):
 
     context = get_slack_context()
-
     return render(request, 'djinora_chat/username_entry.html', context=context)

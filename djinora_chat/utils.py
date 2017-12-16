@@ -12,7 +12,7 @@ def get_slack_context():
             'team_domain': team_info['domain'],
             'users_online': users_online,
             'channel_name': public_channel_info['name'],
-            'channels_members': public_channel_info['members'],
+            'channel_members': public_channel_info['members'],
             'channels_num_members': public_channel_info['num_members'],
             'channel_id': public_channel_info['id'],
         }
@@ -24,7 +24,7 @@ def get_slack_context():
             'team_domain': 'awesome_team',
             'users_online': [],
             'channel_name': 'public',
-            'channels_members': [],
+            'channel_members': [],
             'channels_num_members': 0,
             'channel_id': 'C00PUBLIC',
         }
