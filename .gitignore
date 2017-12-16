@@ -4,3 +4,4 @@ djinora_chat/__pycache__/
 djinora_chat/migrations/__pycache__/
 db.sqlite3
 backup_directory/
+.env
