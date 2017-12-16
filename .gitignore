@@ -1,6 +1,8 @@
 .idea
+db.sqlite3
+backup_directory/
+.env
 Djinora/__pycache__/
 djinora_chat/__pycache__/
 djinora_chat/migrations/__pycache__/
-db.sqlite3
-backup_directory/
+djinora_chat/slack_plugin/__pycache__/
