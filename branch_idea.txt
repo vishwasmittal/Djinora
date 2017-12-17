@@ -1,0 +1,1 @@
+This branch will contain the work related to integrating the public channel actual slack to the chat interface
