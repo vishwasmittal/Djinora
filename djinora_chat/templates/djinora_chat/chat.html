@@ -33,10 +33,7 @@
 
             socket.onmessage = function (e) {
                 var payload = JSON.parse(e.data);
-                var username = payload.username;
-                var text = payload.text;
-                var bot = payload.bot;
-                console.log('username: ' + username + '\ntext: ' + text + '\nbot: ' + bot);
+                console.log(payload)
             };
 
             document.getElementById("message_input").onsubmit = function (event) {

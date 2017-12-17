@@ -11,6 +11,7 @@ def ws_connect(message):
     # accepting the connection
     message.reply_channel.send({'accept': True})
     # parsing the query string
+    print("inside connect")
     params = parse_qs(message.content['query_string'].decode())
     # checking for username in query string
     if 'username' in params:
@@ -20,6 +21,7 @@ def ws_connect(message):
     else:
         username = None
 
+    print('assigned username')
     keep_alive, outgoing_message = username_validator(username=username)
 
     if not keep_alive:
@@ -32,6 +34,7 @@ def ws_connect(message):
         Group('public').add(message.reply_channel)
         Group('public').send(outgoing_message['group_message'])
 
+    print('send message')
 
 @channel_session
 def ws_receive(message):

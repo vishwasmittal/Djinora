@@ -86,7 +86,7 @@ def username_validator(username):
         message = "Welcome to Slack, <b>" + username + "</b>"
         reply_message = message_builder(state='c', status=200, message=message, username=username)
         message = 'Has joined the channel'
-        group_message = message_builder(state='c', status=200, message=message, username=username, bot=True)
+        group_message = message_builder(state='r', status=200, message=message, username=username, bot=True)
         return True, {
             'bool_reply': True,
             'bool_group': True,
@@ -116,5 +116,5 @@ def message_builder(state, status, username, message, bot=False):
         })
 
     # TODO: to use the Message Wrapper Serializer to wrap the message in 'text'
-    return {'text': serialized_message.data}
+    return {'text': json.dumps(serialized_message.data)}
 
