@@ -377,6 +377,10 @@ function handleServerMessage(e) {
     }
     // server has accepted the user
     else if (state === 'connect' && server_status == 200) {
+        // set the username in the chatting screen
+        console.log(payload.username);
+        document.getElementById('username_text').value = payload.username;
+
         // animate the background and display the welcome message
         // and fade out.
         animatingIconFlag = true;
@@ -388,7 +392,6 @@ function handleServerMessage(e) {
             document.getElementsByClassName("username_entry")[0].addStyle({
                 display: "none",
                 opacity: 0,
-                // color: 'black'
                 transition: "opacity " + getAnimationValues().duration + "ms " + getAnimationValues().easing
             });
             fadeIn(document.getElementById("slack-container"));

@@ -2,6 +2,7 @@ from channels import Channel, Group
 from channels.sessions import channel_session
 
 from djinora_chat.models import *
+from . import serializers
 
 from urllib.parse import parse_qs
 import json
@@ -14,7 +15,6 @@ def ws_connect(message):
 
     # parsing the query string
     params = parse_qs(message.content['query_string'].decode())
-
     # checking for username in query string
     if 'username' in params:
         username = params['username'][0]
@@ -62,6 +62,7 @@ def ws_connect(message):
                     "status": "200",
                     "message": "Welcome to Slack, <b>" + username + "</b>",
                     'state': 'connect',
+                    'username': username,
                 }),
             })
             Group('public').add(message.reply_channel)
