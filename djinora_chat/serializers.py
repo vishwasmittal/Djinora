@@ -22,22 +22,30 @@ class MessageSerializer(serializers.Serializer):
     message = serializers.CharField()
     bot = serializers.BooleanField(default=False)
 
+    def __init__(self, data=None):
+        super(MessageSerializer, self).__init__(data=data)
+
 
 class MessageWrapperSerializer(serializers.Serializer):
     text = MessageSerializer()
 
-
-msg_ser = MessageSerializer(data={
-    'state': 'c',
-    'status': '200',
-    'username': "custom_username",
-    'message': 'custom message',
-})
-
-# msg_ser = MessageSerializer()
+    def __init__(self, data):
+        data = {'text': data}
+        super(MessageWrapperSerializer, self).__init__(data=data)
 
 
-print(msg_ser.is_valid())
-
-print(msg_ser.data)
+# msg_ser = MessageWrapperSerializer(data={
+#     'state': 'c',
+#     'status': '200',
+#     'username': "custom_username",
+#     'message': 'custom message',
+# })
+#
+# # msg_ser = MessageSerializer()
+#
+#
+# print(msg_ser.is_valid())
+#
+# print(msg_ser.validated_data)
+# print(msg_ser)
 
