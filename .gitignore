@@ -6,3 +6,4 @@ Djinora/__pycache__/
 djinora_chat/__pycache__/
 djinora_chat/migrations/__pycache__/
 djinora_chat/slack_plugin/__pycache__/
+djinora_chat/slack_plugin/public_box/__pycache__/
