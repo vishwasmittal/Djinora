@@ -127,9 +127,9 @@ BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 slack_client = SlackClient(BOT_TOKEN)
 
 
-def send_message(text, user_input="", user=None, channel=None):
+def send_slack_message(text, user_input="", user=None, channel=None, username="username"):
     # response = get_response(user_input=user_input, user=user, channel=channel, event_time=event_time)
     # if response is not None and slack_client.rtm_connect():
-    a = slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=True)
+    a = slack_client.api_call("chat.postMessage", channel='C8F1CQHT2', text=text, as_user=False, username=username)
     return a
-    # return ""
+

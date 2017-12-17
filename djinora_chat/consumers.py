@@ -1,7 +1,7 @@
 from channels import Channel, Group
 from channels.sessions import channel_session
 
-from djinora_chat.utils import message_builder, username_validator
+from djinora_chat.utils import message_builder, username_validator, send_slack_message
 
 from urllib.parse import parse_qs
 
@@ -40,6 +40,7 @@ def ws_receive(message):
     sender = message.channel_session['username']
     group_message = message_builder(state='r', status='200', message=message.content['text'], bot=False, username=sender)
     Group('public').send(group_message)
+    send_slack_message(text=message.content['text'], username=sender)
 
 
 @channel_session
