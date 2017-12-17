@@ -2,7 +2,7 @@ from channels import Channel, Group
 from channels.sessions import channel_session
 
 from djinora_chat.models import *
-from . import serializers
+from djinora_chat.utils import message_builder
 
 from urllib.parse import parse_qs
 import json
@@ -105,7 +105,7 @@ def ws_receive(message):
 def ws_disconnect(message):
     username = message.channel_session['username']
     Group('public').discard(message.reply_channel)
-    if message.channel_session['joined'] == True:
+    if message.channel_session['joined']:
         Group('public').send({
             "text": json.dumps({
                 "text": "Has left the chat",

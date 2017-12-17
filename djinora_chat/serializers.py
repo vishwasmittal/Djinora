@@ -11,7 +11,7 @@ STATUS_CHOICES = [
     403,
     404,
     409,
-
+    500,
 ]
 
 
@@ -23,17 +23,21 @@ class MessageSerializer(serializers.Serializer):
     bot = serializers.BooleanField(default=False)
 
 
-# # msg_ser = MessageSerializer(data={
-# #     'state': 'c',
-# #     'status': '200',
-# #     'username': "custom_username",
-# #     'message': 'custom message',
-# # })
-# #
+class MessageWrapperSerializer(serializers.Serializer):
+    text = MessageSerializer()
+
+
+msg_ser = MessageSerializer(data={
+    'state': 'c',
+    'status': '200',
+    'username': "custom_username",
+    'message': 'custom message',
+})
+
 # msg_ser = MessageSerializer()
-#
-#
-# print(msg_ser.is_valid())
-#
-# print(msg_ser.data)
-#
+
+
+print(msg_ser.is_valid())
+
+print(msg_ser.data)
+

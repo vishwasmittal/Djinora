@@ -1,4 +1,5 @@
 from djinora_chat.slack_plugin import slack_team_info
+from djinora_chat import serializers
 
 
 def get_slack_context():
@@ -29,3 +30,31 @@ def get_slack_context():
             'channel_id': 'C00PUBLIC',
         }
     return context
+
+
+def message_builder(state, status, username, message, bot=False):
+
+    serialized_message = serializers.MessageSerializer(data={
+        'state': state,
+        'status': status,
+        'message': message,
+        'username': username,
+        'bot': bot,
+    })
+
+    if serialized_message.is_valid():
+        pass
+    else:
+        # specify that there is a server error
+        serialized_message = serializers.MessageSerializer(data={
+            'state': 'r',
+            'status': 500,
+            'message': "Internal Server Error",
+            'username': "SysAdmin",
+        })
+
+    return serialized_message
+
+
+
+
