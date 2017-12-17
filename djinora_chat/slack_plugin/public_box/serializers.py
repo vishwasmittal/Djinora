@@ -1,6 +1,6 @@
 from rest_framework import serializers
-from rest_framework.exceptions import AuthenticationFailed
-from django.contrib.auth import authenticate
+from channels import Group
+from djinora_chat.utils import message_builder, send_message
 
 
 class SlackEventSerializer(serializers.Serializer):
@@ -30,12 +30,16 @@ class SlackDataSerializer(serializers.Serializer):
         type = event.get('type')
         if 'text' in event:
             text = event.get('text')
+            group_message = message_builder(state='r', status=200, message=text, bot=False, username=user)
+            Group('public').send(group_message)
+            response = send_message(user_input=text, user=user, channel=channel, text=text)
         else:
             text = None
-        # response = send_message(user_input=text, user=user, channel=channel, event_time=event_time)
-        # self.validated_data['response'] = response
-        # return response
-        return ""
+            response = {}
+        self.validated_data['response'] = response
+        return response
+        # return ""
+        # return text
 
     def update(self, instance, validated_data):
         return None

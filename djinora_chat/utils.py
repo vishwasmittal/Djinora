@@ -118,3 +118,18 @@ def message_builder(state, status, username, message, bot=False):
     # TODO: to use the Message Wrapper Serializer to wrap the message in 'text'
     return {'text': json.dumps(serialized_message.data)}
 
+
+import os
+import json
+from slackclient import SlackClient
+
+BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
+slack_client = SlackClient(BOT_TOKEN)
+
+
+def send_message(text, user_input="", user=None, channel=None):
+    # response = get_response(user_input=user_input, user=user, channel=channel, event_time=event_time)
+    # if response is not None and slack_client.rtm_connect():
+    a = slack_client.api_call("chat.postMessage", channel=channel, text=text, as_user=True)
+    return a
+    # return ""
