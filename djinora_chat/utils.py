@@ -40,16 +40,6 @@ def username_validator(username):
     the message to be sent to user and group
     """
 
-    # else:
-    #     message.reply_channel.send({
-    #         'text': json.dumps({
-    #             "status": "400",
-    #             "text": "Username is required",
-    #             'state': 'connect',
-    #         }),
-    #     })
-    #     message.reply_channel.send({'close': True})
-
     if username is None:
         error = 'Username is required'
         reply_message = message_builder(state='c', status=404, message=error, username=username)
@@ -60,13 +50,6 @@ def username_validator(username):
         }
 
     elif len(username) > 36:
-        # message.reply_channel.send({
-        #     'text': json.dumps({
-        #         "status": "404",
-        #         "error": "Name too long",
-        #         'state': 'connect',
-        #     }),
-        # })
         error = 'Name to long'
         reply_message = message_builder(state='c', status=404, message=error, username=username)
         # message.reply_channel.send({'close': True})
@@ -78,16 +61,8 @@ def username_validator(username):
 
         # checking if same username exists
     elif TempPublicUser.objects.filter(username=username).count() > 0:
-        # message.reply_channel.send({
-        #     'text': json.dumps({
-        #         "status": "409",
-        #         "error": "Username already taken! :(",
-        #         'state': 'connect',
-        #     }),
-        # })
         error = 'Username already taken! :('
         reply_message = message_builder(state='c', status=404, message=error, username=username)
-        # message.reply_channel.send({'close': True})
         return False, {
             'bool_reply': True,
             'bool_group': False,
@@ -96,16 +71,8 @@ def username_validator(username):
 
     # if the username entered is 'Slack'
     elif username == "Slack":
-        # message.reply_channel.send({
-        #     'text': json.dumps({
-        #         "status": "403",
-        #         "error": "You are already inside of Slack, <b>Slack</b>!",
-        #         'state': 'connect',
-        #     }),
-        # })
         error = 'You are already inside of Slack, <b>Slack</b>!'
         reply_message = message_builder(state='c', status=404, message=error, username=username)
-        # message.reply_channel.send({'close': True})
         return False, {
             'bool_reply': True,
             'bool_group': False,
@@ -116,29 +83,10 @@ def username_validator(username):
     else:
         # message.channel_session['joined'] = True
         TempPublicUser.objects.create(username=username)
-        # message.reply_channel.send({
-        #     'text': json.dumps({
-        #         "status": "200",
-        #         "message": "Welcome to Slack, <b>" + username + "</b>",
-        #         'state': 'connect',
-        #         'username': username,
-        #     }),
-        # })
-
         message = "Welcome to Slack, <b>" + username + "</b>"
         reply_message = message_builder(state='c', status=200, message=message, username=username)
-        # Group('public').add(message.reply_channel)
-        # Group('public').send({
-        #     "text": json.dumps({
-        #         "text": "Has joined the channel",
-        #         "username": username,
-        #         "bot": True,
-        #         'state': 'receive',
-        #     }),
-        # })
         message = 'Has joined the channel'
         group_message = message_builder(state='c', status=200, message=message, username=username, bot=True)
-
         return True, {
             'bool_reply': True,
             'bool_group': True,
@@ -167,4 +115,6 @@ def message_builder(state, status, username, message, bot=False):
             'username': "SysAdmin",
         })
 
-    return serialized_message
+    # TODO: to use the Message Wrapper Serializer to wrap the message in 'text'
+    return {'text': serialized_message.data}
+

@@ -24,7 +24,7 @@ SECRET_KEY = '-(0g-uu=xzn6fcwpu8m#l3)9$%(t4ocpkvsuq!zu*qrms!we4x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '05de144c.ngrok.io']
 
 # Application definition
 
@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'collectfast',
     'django.contrib.staticfiles',
+    'rest_framework',
     'channels',
     'djinora_chat',
 ]
