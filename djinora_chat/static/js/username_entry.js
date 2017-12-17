@@ -363,20 +363,27 @@ function handleServerMessage(e) {
     var payload = JSON.parse(e.data);
     var server_status = payload.status;
     var state = payload.state; // can have 2 values: connect, receive. Shows what state does the message represents.
+    var message = payload.message;
+    var is_bot = payload.bot;
+    var username = payload.username;
 
     // if error received
-    if (state === 'connect' && server_status >= 400 && server_status < 500) {
-        var error = payload.error;
+    if ((state === 'c' || state === 'connect') && server_status >= 400) {
+        // var error = payload.error;
         // deal with the error message
         animatingIconFlag = true;
         shakeInputAnimation();
-        displayMessage(error).then(function () {
+        displayMessage(message).then(function () {
             // Release the flag
             animatingIconFlag = false;
         });
     }
     // server has accepted the user
-    else if (state === 'connect' && server_status == 200) {
+    else if ((state === 'c' || state === 'connect') && server_status == 200) {
+        // set the username in the chatting screen
+        console.log(username);
+        document.getElementById('username_text').value = username;
+
         // animate the background and display the welcome message
         // and fade out.
         animatingIconFlag = true;
@@ -388,14 +395,13 @@ function handleServerMessage(e) {
             document.getElementsByClassName("username_entry")[0].addStyle({
                 display: "none",
                 opacity: 0,
-                // color: 'black'
                 transition: "opacity " + getAnimationValues().duration + "ms " + getAnimationValues().easing
             });
             fadeIn(document.getElementById("slack-container"));
         });
     }
 
-    else if (state === 'receive') {
+    else if (state === 'r' || state === 'receive') {
         /** Sample html for chat message
          <li class="message">
          <div class="user-icon"><img
@@ -417,10 +423,10 @@ function handleServerMessage(e) {
         div_body.className = 'body';
         var div_username = document.createElement('DIV');
         div_username.className = 'username';
-        div_username.appendChild(document.createTextNode(payload.username));
+        div_username.appendChild(document.createTextNode(username));
         var div_text = document.createElement('DIV');
         div_text.className = 'text';
-        div_text.appendChild(document.createTextNode(payload.text));
+        div_text.appendChild(document.createTextNode(message));
         div_user_icon.appendChild(img);
         div_body.appendChild(div_username);
         div_body.appendChild(div_text);
