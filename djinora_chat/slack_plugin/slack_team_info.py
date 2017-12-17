@@ -104,3 +104,6 @@ def active_public_users():
         if user['id'] in public_channel_users:
             active_public_users_list.append(user)
     return active_public_users_list
+
+
+# {'members': ['U3SRS5L59'], 'name': 'public', 'num_members': 1, 'id': 'C8F1CQHT2'}
