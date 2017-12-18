@@ -133,3 +133,12 @@ def send_slack_message(text, user_input="", user=None, channel=None, username="u
     a = slack_client.api_call("chat.postMessage", channel='C8F1CQHT2', text=text, as_user=False, username=username)
     return a
 
+
+def update_slack_members(users_list):
+    # model containing the users of slack
+    for user in users_list:
+        slack_user = SlackUser.objects.get_or_create(uid=user['id'])
+        slack_user.name = user['real_name']
+        slack_user.username = user['name']
+        slack_user.email = user['profile']['email']
+        slack_user.save()

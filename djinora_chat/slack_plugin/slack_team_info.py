@@ -1,6 +1,9 @@
 import os
 import json
 from slackclient import SlackClient
+from djinora_chat.models import SlackUser
+from djinora_chat import utils
+
 
 BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
 slack_client = SlackClient(BOT_TOKEN)
@@ -69,6 +72,10 @@ def raw_users_list():
 def users_list():
     # returns the list of channels
     raw_data = raw_users_list()
+
+    if not (len(raw_data['members']) == SlackUser.objects.count()):
+        utils.update_slack_members(raw_data['members'])
+
     if not raw_data['ok']:
         return None
     else:
