@@ -69,12 +69,22 @@ def raw_users_list():
     return slack_client.api_call('users.list', presence=True)
 
 
+def update_slack_members(slack_users_list):
+    # model containing the users of slack
+    for user in slack_users_list:
+        slack_user = SlackUser.objects.get_or_create(uid=user['id'])
+        slack_user.name = user['real_name']
+        slack_user.username = user['name']
+        slack_user.email = user['profile']['email']
+        slack_user.save()
+
+
 def users_list():
     # returns the list of channels
     raw_data = raw_users_list()
 
     if not (len(raw_data['members']) == SlackUser.objects.count()):
-        utils.update_slack_members(raw_data['members'])
+        update_slack_members(raw_data['members'])
 
     if not raw_data['ok']:
         return None
