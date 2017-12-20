@@ -1,10 +1,18 @@
 from djinora_chat.slack_plugin import slack_team_info
 from djinora_chat import serializers
 from djinora_chat.models import *
+import os
 import json
+from slackclient import SlackClient
+
+BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
+slack_client = SlackClient(BOT_TOKEN)
 
 
 def get_slack_context():
+    """
+    Returns the context for the template of chat
+    """
     public_channel_info = slack_team_info.public_channel_info()
     users_online = slack_team_info.active_public_users()
     team_info = slack_team_info.team_info()
@@ -117,14 +125,6 @@ def message_builder(state, status, username, message, bot=False):
 
     # TODO: to use the Message Wrapper Serializer to wrap the message in 'text'
     return {'text': json.dumps(serialized_message.data)}
-
-
-import os
-import json
-from slackclient import SlackClient
-
-BOT_TOKEN = os.environ.get('SLACK_BOT_TOKEN')
-slack_client = SlackClient(BOT_TOKEN)
 
 
 def send_slack_message(text, user_input="", user=None, channel=None, username="username"):

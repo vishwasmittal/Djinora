@@ -27,6 +27,8 @@ class SlackDataSerializer(serializers.Serializer):
             return self.validated_data['response']
         event_time = validated_data.get('event_time')
         event = validated_data.get('event')
+        if 'user' not in event:     # will not process if its from bot (this can be when public users send message)
+            return ""
         user = event.get('user')
         user_object = SlackUser.objects.filter(uid=user)
         if user_object.count() == 0:
@@ -36,7 +38,8 @@ class SlackDataSerializer(serializers.Serializer):
         type = event.get('type')
         if 'text' in event:
             text = event.get('text')
-            group_message = message_builder(state='r', status=200, message=text, bot=False, username=user_object[0].first_name())
+            group_message = message_builder(state='r', status=200, message=text, bot=False,
+                                            username=user_object[0].first_name())
             Group('public').send(group_message)
             # response = send_message(user_input=text, user=user, channel=channel, text=text)
             response = group_message
@@ -48,3 +51,5 @@ class SlackDataSerializer(serializers.Serializer):
 
     def update(self, instance, validated_data):
         return None
+
+

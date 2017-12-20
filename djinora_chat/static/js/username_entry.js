@@ -317,7 +317,12 @@ function getUserInsideSlack(event) {
         shakeInputAnimation();
     }
     else {
-        socket = new WebSocket("ws://" + window.location.host + window.location.pathname + "?username=" + glob.name);
+        var protocol = window.location.protocol;
+        if (protocol === 'https:') {
+            socket = new WebSocket("wss://" + window.location.host + window.location.pathname + "?username=" + glob.name);
+        } else {
+            socket = new WebSocket("ws://" + window.location.host + window.location.pathname + "?username=" + glob.name);
+        }
         socket.onmessage = handleServerMessage;
     }
 }

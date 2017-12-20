@@ -70,13 +70,17 @@ def raw_users_list():
 
 
 def update_slack_members(slack_users_list):
+    # print(slack_users_list)
     # model containing the users of slack
     for user in slack_users_list:
         slack_user = SlackUser.objects.get_or_create(uid=user['id'])
-        slack_user.name = user['real_name']
-        slack_user.username = user['name']
-        slack_user.email = user['profile']['email']
-        slack_user.save()
+        # slack_user = SlackUser.objects.get(uid=user['id'])
+        # print(slack_user)
+        if 'real_name' in user and 'name' in user and 'email' in user['profile']:
+            slack_user.name = user['real_name']
+            slack_user.username = user['name']
+            slack_user.email = user['profile']['email']
+            slack_user.save()
 
 
 def users_list():
