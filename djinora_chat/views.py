@@ -26,6 +26,7 @@ class SlackResponseView(APIView):
     serializer_class = SlackDataSerializer
 
     def post(self, request):
+        import json
         serializer = self.serializer_class(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()

@@ -17,3 +17,16 @@ class TempMessage(models.Model):
 
     def __str__(self):
         return self.user.username + ": " + self.message
+
+
+class SlackUser(models.Model):
+    uid = models.CharField(max_length=9, primary_key=True)
+    name = models.CharField(max_length=30)
+    username = models.CharField(max_length=30)
+    email = models.EmailField()
+
+    def __str__(self):
+        return self.uid
+
+    def first_name(self):
+        return self.name.split()[0]
