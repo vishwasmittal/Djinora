@@ -38,7 +38,8 @@ def ws_receive(message):
     if 'username' not in message.channel_session:
         message.reply_channel.disconnect(message)
     sender = message.channel_session['username']
-    group_message = message_builder(state='r', status='200', message=message.content['text'], bot=False, username=sender)
+    group_message = message_builder(state='r', status='200', message=message.content['text'], bot=False,
+                                    username=sender)
     Group('public').send(group_message)
     send_slack_message(text=message.content['text'], username=sender)
 
@@ -48,6 +49,6 @@ def ws_disconnect(message):
     username = message.channel_session['username']
     Group('public').discard(message.reply_channel)
     if message.channel_session['joined']:
-        group_message = message_builder(state='r', status='200', message='Has left the chat', bot=True, username=username)
+        group_message = message_builder(state='r', status='200', message='Has left the chat', bot=True,
+                                        username=username)
         Group('public').send(group_message)
-

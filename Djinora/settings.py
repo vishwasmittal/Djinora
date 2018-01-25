@@ -24,7 +24,7 @@ SECRET_KEY = '-(0g-uu=xzn6fcwpu8m#l3)9$%(t4ocpkvsuq!zu*qrms!we4x'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', 'e51450bb.ngrok.io']
+ALLOWED_HOSTS = ['0.0.0.0', '127.0.0.1', 'localhost', '78783c11.ngrok.io']
 
 # Application definition
 
@@ -34,7 +34,6 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'collectfast',
     'django.contrib.staticfiles',
     'rest_framework',
     'channels',
@@ -126,15 +125,15 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
 
-# STATIC_URL = '/static/'
-
-
-PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-# print(BASE_DIR)
-STATIC_ROOT = os.path.join(BASE_DIR, 'backup_directory/staticfiles')
 STATIC_URL = '/static/'
 
-# Extra places for collectstatic to find static files.
+
+# PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+# # print(BASE_DIR)
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_URL = '/static/'
+#
+# # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, 'djinora_chat/static'),
 )
