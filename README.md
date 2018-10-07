@@ -19,6 +19,7 @@ Following are some tasks that are needed to be done
  * Special type of dislay for messages marked with `bot=True` *(Chat Screen | JS)*
  * Integrate features custom bot *(Server| Python)*
  * Complete Readme *(Github | Markdown)*
+ * Refactor
 
 
 ### Glimpses
