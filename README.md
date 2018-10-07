@@ -5,7 +5,7 @@ Jinora on Django
 Please refer to [Jinora | SDSlabs](https://github.com/sdslabs/jinora#jinora) for more info
 
 
-### TO DO
+## TO DO
 Following are some tasks that are needed to be done
  * Create special serializing functions for messages to be sent to clients *(Server | Python)*
  * Separate message building from consumers using above built serializers *(Server | Python)*
